@@ -1,31 +1,29 @@
 import pgk from "pg";
 const { Pool } = pgk;
-import DatabaseInterface from "../../../interfaces/database";
 
-export class DatabaseServer extends DatabaseInterface {
-  private static _instance: DatabaseServer;
-  static _conn: any;
-  static _connected: boolean;
+class DatabaseServer {
+  static _instance;
+  static _conn;
+  static _connected;
 
-  private constructor() {
-    super();
+  constructor() {
     const client = new Pool({
       user: process.env.POSTGRES_USER,
       host: process.env.POSTGRES_HOST,
       database: process.env.POSTGRES_DB,
       password: process.env.POSTGRESS_PASS,
-      port: +process.env.POSTGRESS_PORT!
+      port: process.env.POSTGRESS_PORT
     });
     client
       .connect()
-      .then((): void => {
+      .then(() => {
         console.log("connected to db");
         DatabaseServer._conn = client;
         DatabaseServer._connected = true;
       })
-      .catch((err: any) => console.log(err));
+      .catch((err) => console.log(err));
   }
-  static getInstance(): DatabaseServer {
+  static getInstance() {
     if (this._instance) {
       return this._instance;
     }
@@ -33,7 +31,7 @@ export class DatabaseServer extends DatabaseInterface {
     this._instance = new DatabaseServer();
     return this._instance;
   }
-  static async runQuery(query: string) {
+  static async runQuery(query) {
     if (DatabaseServer._connected) {
       const result = await DatabaseServer._conn.query(query);
       return result.rows;
