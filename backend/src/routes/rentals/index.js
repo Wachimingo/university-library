@@ -30,7 +30,7 @@ export default async (server) => {
   });
   server.patch("/:id", async (req, res) => {
     const date = new Date();
-    const query = `update rentals set return_date=${date.toISOString().split("T")[0]} where rentals.id=${req.params.id}`;
+    const query = `update rentals set return_date='${date.toISOString().split("T")[0]}' where rentals.id=${req.params.id}`;
     const updateStock = `update inventory set stock=((select stock from inventory where id=${req.body.inventory})+1) where id=${req.body.inventory}`;
     let data;
     try {
