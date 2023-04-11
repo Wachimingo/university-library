@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS public.books
     name text COLLATE pg_catalog."default" NOT NULL,
     author integer NOT NULL,
     genre integer NOT NULL,
-    "publishedYear" text COLLATE pg_catalog."default" NOT NULL,
+    published_year text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT id PRIMARY KEY (id)
 );
 
@@ -47,12 +47,12 @@ CREATE TABLE IF NOT EXISTS public.rental
 
 CREATE TABLE IF NOT EXISTS public.users
 (
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    "firstName" text COLLATE pg_catalog."default" NOT NULL,
-    "lastName" text COLLATE pg_catalog."default" NOT NULL,
+    user_id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    first_name text COLLATE pg_catalog."default" NOT NULL,
+    last_name text COLLATE pg_catalog."default" NOT NULL,
     email text COLLATE pg_catalog."default" NOT NULL,
-    role text COLLATE pg_catalog."default" NOT NULL DEFAULT USER,
-    CONSTRAINT users_pkey PRIMARY KEY (id)
+    user_role text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT users_pkey PRIMARY KEY (user_id)
 );
 
 ALTER TABLE IF EXISTS public.books
@@ -89,7 +89,7 @@ ALTER TABLE IF EXISTS public.rental
 
 ALTER TABLE IF EXISTS public.rental
     ADD CONSTRAINT rental_staff FOREIGN KEY (staff)
-    REFERENCES public.users (id) MATCH SIMPLE
+    REFERENCES public.users (user_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -97,7 +97,7 @@ ALTER TABLE IF EXISTS public.rental
 
 ALTER TABLE IF EXISTS public.rental
     ADD CONSTRAINT rental_user FOREIGN KEY ("user")
-    REFERENCES public.users (id) MATCH SIMPLE
+    REFERENCES public.users (user_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
