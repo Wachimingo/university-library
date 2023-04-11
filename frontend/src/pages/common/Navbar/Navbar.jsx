@@ -6,15 +6,15 @@ import styles from "./navbar.module.css";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const [query, setQuery] = useState < string > "";
-  const [match, setMatch] = useState < boolean > true;
-  const [open, setIsOpen] = useState < boolean > true;
+  const [query, setQuery] = useState("");
+  const [match, setMatch] = useState(true);
+  const [open, setIsOpen] = useState(true);
 
   const searchMovie = () => {
     if (query.trim() === "") return;
     navigate(`/search/${query.trim()}`);
   };
-  const resizedWindow = (x: any) => {
+  const resizedWindow = (x) => {
     setIsOpen(x.matches);
     setMatch(x.matches);
   };
@@ -31,9 +31,6 @@ export const Navbar = () => {
           <ul className={`${styles["list"]} ${styles[match ? "row" : "column"]}`}>
             <li className={styles["item"]}>
               <Link to='/home'>Home</Link>
-            </li>
-            <li className={styles["item"]}>
-              <Link to='/favorites'>Favorites</Link>
             </li>
             <li className={`${styles["item"]} ${styles["search"]}`}>
               <svg fill='currentColor' className={styles["search-icon"]} onClick={() => searchMovie()} xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>

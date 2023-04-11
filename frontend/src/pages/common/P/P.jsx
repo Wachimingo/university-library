@@ -1,10 +1,6 @@
 import styles from "./p.module.css";
 
-type pProps = {
-  children: React.ReactNode
-};
-
-export const P = ({ children }: pProps) => {
+export const P = ({ children }) => {
   return <p className={styles["p"]}>{children}</p>;
 };
 

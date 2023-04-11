@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "../Card";
 import { Book } from "../Book";
 
-export const MovieCard = ({ book, className, children }) => {
+export const BookCard = ({ book, className, children }) => {
   const navigate = useNavigate();
 
   const openMovieDetails = (id) => {
@@ -18,4 +18,4 @@ export const MovieCard = ({ book, className, children }) => {
   );
 };
 
-export default MovieCard;
+export default BookCard;

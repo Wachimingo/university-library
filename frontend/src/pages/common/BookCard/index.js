@@ -1,3 +1,3 @@
 import { lazy } from "react";
 
-export const MovieCard = lazy(() => import("./BookCard"));
+export const BookCard = lazy(() => import("./BookCard"));

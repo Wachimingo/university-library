@@ -1,9 +1,8 @@
 import styles from "./button.module.css";
-import { ButtonProps } from "./types";
 
 const SUCCESS = "success";
 
-export const Button = ({ children, success, info, error, warning, disable, ...props }: ButtonProps) => {
+export const Button = ({ children, success, info, error, warning, disable, ...props }) => {
   let type = SUCCESS;
   if (success) type = SUCCESS;
   if (info) type = "info";

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "./switch.module.scss";
+import styles from "./switch.module.css";
 
 export const Switch = () => {
   const [active, setActive] = useState(localStorage.getItem("theme") !== null && localStorage.getItem("theme") !== "light");

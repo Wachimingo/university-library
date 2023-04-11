@@ -1,5 +1,5 @@
 .nav {
-  background-color: var(--bg-secondary);
+  background-color: #2e2e2e;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -17,7 +17,7 @@
 
 .column {
   z-index: 100;
-  background-color: var(--bg-secondary);
+  background-color: #2e2e2e;
   width: 100%;
   position: absolute;
   top: 5vh;
@@ -43,25 +43,25 @@
 
 a {
   text-decoration: none;
-  color: var(--font-color);
+  color: white;
 }
 a:hover {
   color: lightblue;
   cursor: pointer;
 }
 
-.search{
+.search {
   display: flex;
   flex-direction: row;
 }
 
-.search-icon{
+.search-icon {
   width: 25px;
   height: 25px;
-  color: var(--font-color);
+  color: white;
 }
 
-.search-input{
+.search-input {
   width: 90%;
   padding: 3px 5px;
   margin-left: 5px;
@@ -73,13 +73,13 @@ a:hover {
 }
 
 .hamburguer {
-  color: var(--font-color);
+  color: white;
   padding-right: 2vw;
   width: 25px;
   height: 25px;
 }
 
-.right{
+.right {
   position: absolute;
   right: 0;
   top: 2vh;
@@ -87,7 +87,7 @@ a:hover {
 .show {
   display: contents !important;
 }
-.hide{
+.hide {
   display: none !important;
 }
 
