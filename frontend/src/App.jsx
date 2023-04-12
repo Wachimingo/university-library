@@ -1,21 +1,22 @@
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useState } from "react";
 import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
-import { Home, Details, Rentals, MyBooks, Books } from "./pages";
+import { Home, Details, Rentals, MyBooks, Books, Users, Login } from "./pages";
 import { Navbar } from "./pages/common";
 
 function App() {
-  // const navigate = usesNavigate();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("token") === null) {
-  //     navigate("/login");
-  //   }
-  // }, [navigate]);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [navigate, user]);
 
   const Layout = () => {
     return (
       <>
-        <Navbar />
+        <Navbar user={user} setUser={setUser} />
         <Outlet />
       </>
     );
@@ -26,12 +27,13 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
-          <Route path='/details/:id' element={<Details />} />
+          <Route path='/details/:id' element={<Details user={user} />} />
           <Route path='/rentals' element={<Rentals />} />
           <Route path='/books' element={<Books />} />
-          <Route path='/my-books' element={<MyBooks />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='/my-books' element={<MyBooks user={user} />} />
         </Route>
-        {/* <Route path='/login' element={<Login />} /> */}
+        <Route path='/login' element={<Login setUser={setUser} />} />
         <Route path='/*' element={<>Not Found</>} />
       </Routes>
     </Suspense>

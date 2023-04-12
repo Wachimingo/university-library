@@ -13,7 +13,7 @@ export default async (server) => {
     res.send(data);
   });
   server.get("/:id", async (req, res) => {
-    const query = `select books.id, books.title, books.img,  books.author, books.genre, books.published_year, inventory.id as inventory_id, inventory.stock from books inner join inventory on books.id = inventory.book where books.id = ${req.params.id}`;
+    const query = `select books.id, books.title, books.img, books.author, books.genre, books.published_year, inventory.id as inventory_id, inventory.stock from books inner join inventory on books.id = inventory.book where books.id = ${req.params.id}`;
     let data;
     try {
       data = await postgresServer.runQuery(query);
@@ -61,7 +61,7 @@ export default async (server) => {
     res.send(data);
   });
   server.post("/", async (req, res) => {
-    const { title, published_year, author, genre, img, stock } = JSON.parse(req.body);
+    const { title, published_year, author, genre, img, stock } = req.body;
     const query = `insert into books(title, published_year, author, genre, img) values('${title}', '${published_year}', '${author}', '${genre}', '${img}') returning id;`;
     let data;
     try {

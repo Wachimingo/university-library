@@ -8,6 +8,9 @@ const Books = () => {
     try {
       await fetch(`http://localhost:3001/books`, {
         method: "POST",
+        headers: {
+          "Content-type": "Application/json"
+        },
         body: JSON.stringify(book)
       });
     } catch (error) {

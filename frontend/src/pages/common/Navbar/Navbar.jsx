@@ -3,17 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { Div } from "../containers";
 import { Switch } from "../themeSwitch";
 import styles from "./navbar.module.css";
+import { Users } from "../../admin/Users";
 
-export const Navbar = () => {
-  const navigate = useNavigate();
-  const [query, setQuery] = useState("");
+export const Navbar = ({ user, setUser }) => {
   const [match, setMatch] = useState(true);
   const [open, setIsOpen] = useState(true);
-
-  const searchMovie = () => {
-    if (query.trim() === "") return;
-    navigate(`/search/${query.trim()}`);
-  };
   const resizedWindow = (x) => {
     setIsOpen(x.matches);
     setMatch(x.matches);
@@ -24,6 +18,43 @@ export const Navbar = () => {
     x.addEventListener("change", resizedWindow);
   }, []);
 
+  const AdminRoutes = () => {
+    if (user.user_role === "student") {
+      return <></>;
+    }
+    return (
+      <>
+        <li className={styles["item"]}>
+          <Link to='/rentals'>Rentals</Link>
+        </li>
+        <li className={styles["item"]}>
+          <Link to='/books'>Books</Link>
+        </li>
+        <li className={styles["item"]}>
+          <Link to='/users'>Users</Link>
+        </li>
+      </>
+    );
+  };
+  const SessionButton = () => {
+    if (!user) {
+      return (
+        <Link style={{ paddingRight: "2vw" }} to='/login'>
+          Login
+        </Link>
+      );
+    }
+    return (
+      <a
+        style={{ paddingRight: "2vw" }}
+        onClick={() => {
+          localStorage.clear();
+          location.replace("/login");
+        }}>
+        Logout
+      </a>
+    );
+  };
   return (
     <nav className={styles["nav"]}>
       <Div row space='between'>
@@ -35,30 +66,11 @@ export const Navbar = () => {
             <li className={styles["item"]}>
               <Link to='/my-books'>My books</Link>
             </li>
-            <li className={styles["item"]}>
-              <Link to='/rentals'>Rentals</Link>
-            </li>
-            <li className={styles["item"]}>
-              <Link to='/books'>Books</Link>
-            </li>
-            <li className={`${styles["item"]} ${styles["search"]}`}>
-              <svg fill='currentColor' className={styles["search-icon"]} onClick={() => searchMovie()} xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-                <path d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z' />
-              </svg>
-              <input
-                className={styles["search-input"]}
-                id='search'
-                type='text'
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  return e.key === "Enter" ? searchMovie() : () => {};
-                }}
-              />
-            </li>
-            <li className={`${styles["item"]}`}></li>
+            <AdminRoutes />
           </ul>
         </Div>
         <Div space='between' row fit className={styles["right"]}>
+          <SessionButton />
           <Switch />
           <svg
             onClick={() => setIsOpen((prev) => !prev)}

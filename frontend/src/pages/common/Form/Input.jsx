@@ -10,8 +10,11 @@ export const Input = ({ id, fieldName, action, value, ...props }) => {
         id={id}
         onChange={(e) =>
           action((prev) => {
-            prev[id] = e.target.value;
-            return prev;
+            if (typeof prev === "Object") {
+              prev[id] = e.target.value;
+              return prev;
+            }
+            return e.target.value;
           })
         }
         value={value}

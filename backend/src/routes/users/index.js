@@ -24,7 +24,8 @@ export default async (server) => {
     res.send(data);
   });
   server.post("/signup", async (req, res) => {
-    const query = `insert into users(first_name, last_name, email, user_role, pass) values('${req.body.firstName}','${req.body.lastName}','${req.body.email}','student','123456');`;
+    const { first_name, last_name, email } = req.body;
+    const query = `insert into users(first_name, last_name, email, user_role, pass) values('${first_name}','${last_name}','${email}','student','123456');`;
 
     let data;
     try {

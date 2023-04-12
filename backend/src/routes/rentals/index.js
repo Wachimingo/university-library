@@ -36,7 +36,7 @@ export default async (server) => {
   });
   server.post("/", async (req, res) => {
     const date = new Date();
-    const { inventory, user } = JSON.parse(req.body);
+    const { inventory, user } = req.body;
     const query = `insert into rentals(inventory, "user", rental_date, return_date, staff) values(${inventory}, ${user}, '${
       date.toISOString().split("T")[0]
     }', '', 3)`;
@@ -53,7 +53,7 @@ export default async (server) => {
     res.send(data);
   });
   server.patch("/:id", async (req, res) => {
-    const { inventory } = JSON.parse(req.body);
+    const { inventory } = req.body;
     const date = new Date();
     const query = `update rentals set return_date='${date.toISOString().split("T")[0]}' where rentals.id=${req.params.id}`;
     const updateStock = `update inventory set stock=((select stock from inventory where id=${inventory})+1) where id=${inventory}`;

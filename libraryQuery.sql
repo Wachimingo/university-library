@@ -3,28 +3,15 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public.authors
-(
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    name text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT authors_pkey PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS public.books
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    name text COLLATE pg_catalog."default" NOT NULL,
-    author integer NOT NULL,
-    genre integer NOT NULL,
+    title text COLLATE pg_catalog."default" NOT NULL,
     published_year text COLLATE pg_catalog."default" NOT NULL,
+    author text COLLATE pg_catalog."default" NOT NULL,
+    genre text COLLATE pg_catalog."default" NOT NULL,
+    img text COLLATE pg_catalog."default",
     CONSTRAINT id PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS public.genres
-(
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    name text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT genres_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.inventory
@@ -35,13 +22,13 @@ CREATE TABLE IF NOT EXISTS public.inventory
     CONSTRAINT inventory_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.rental
+CREATE TABLE IF NOT EXISTS public.rentals
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     inventory integer NOT NULL,
     "user" integer NOT NULL,
-    "rentalDate" text COLLATE pg_catalog."default" NOT NULL,
-    "returnDate" text COLLATE pg_catalog."default" NOT NULL,
+    rental_date text COLLATE pg_catalog."default" NOT NULL,
+    return_date text COLLATE pg_catalog."default" NOT NULL,
     staff integer NOT NULL
 );
 
@@ -52,24 +39,9 @@ CREATE TABLE IF NOT EXISTS public.users
     last_name text COLLATE pg_catalog."default" NOT NULL,
     email text COLLATE pg_catalog."default" NOT NULL,
     user_role text COLLATE pg_catalog."default" NOT NULL,
+    pass text COLLATE pg_catalog."default",
     CONSTRAINT users_pkey PRIMARY KEY (user_id)
 );
-
-ALTER TABLE IF EXISTS public.books
-    ADD CONSTRAINT author_book FOREIGN KEY (author)
-    REFERENCES public.authors (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.books
-    ADD CONSTRAINT book_genre FOREIGN KEY (genre)
-    REFERENCES public.genres (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
 
 ALTER TABLE IF EXISTS public.inventory
     ADD CONSTRAINT invetory_book FOREIGN KEY (book)
@@ -79,7 +51,7 @@ ALTER TABLE IF EXISTS public.inventory
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public.rental
+ALTER TABLE IF EXISTS public.rentals
     ADD CONSTRAINT inventory_rental FOREIGN KEY (inventory)
     REFERENCES public.inventory (id) MATCH SIMPLE
     ON UPDATE NO ACTION
@@ -87,7 +59,7 @@ ALTER TABLE IF EXISTS public.rental
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public.rental
+ALTER TABLE IF EXISTS public.rentals
     ADD CONSTRAINT rental_staff FOREIGN KEY (staff)
     REFERENCES public.users (user_id) MATCH SIMPLE
     ON UPDATE NO ACTION
@@ -95,7 +67,7 @@ ALTER TABLE IF EXISTS public.rental
     NOT VALID;
 
 
-ALTER TABLE IF EXISTS public.rental
+ALTER TABLE IF EXISTS public.rentals
     ADD CONSTRAINT rental_user FOREIGN KEY ("user")
     REFERENCES public.users (user_id) MATCH SIMPLE
     ON UPDATE NO ACTION

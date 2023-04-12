@@ -2,17 +2,23 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Main, Page, Section } from "../common";
 
-const Details = () => {
+const Details = ({ user }) => {
   const { id } = useParams();
-  const userId = 1;
   const [book, setBook] = useState({ author: "", title: "", img: "default.webp", genre: "", published_year: "", inventory_id: 0, stock: 0 });
   const [isBorrowed, setIsBorrowed] = useState(false);
   useEffect(() => {
     fetch(`http://localhost:3001/books/${id}`)
       .then((res) => res.json())
-      .then((data) => setBook(data[0]))
+      .then((data) =>
+        setBook((prev) => {
+          if (data.length > 0) {
+            return data[0];
+          }
+          return prev;
+        })
+      )
       .catch((error) => console.log(error));
-    fetch(`http://localhost:3001/rentals/user?user=${userId}&book=${id}`)
+    fetch(`http://localhost:3001/rentals/user?user=${user.user_id}&book=${id}`)
       .then((res) => res.json())
       .then((data) => setIsBorrowed(data))
       .catch((error) => console.log(error));
@@ -22,9 +28,12 @@ const Details = () => {
     try {
       await fetch(`http://localhost:3001/rentals`, {
         method: "POST",
+        headers: {
+          "Content-type": "Application/json"
+        },
         body: JSON.stringify({
           inventory: book.inventory_id,
-          user: userId ? userId : 1
+          user: user.user_id
         })
       });
       setBook((prev) => {
