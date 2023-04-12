@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Main, Page, Section } from "../common";
 import { BookCard } from "../common";
-const Home = () => {
+const MyBooks = () => {
   const [books, setBooks] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3001/books/")
+    fetch(`http://localhost:3001/rentals/user/my-books?user=${1}`)
       .then((res) => res.json())
-      .then((data) => {
-        data.sort(function (a, b) {
-          return -(a.id - b.id);
-        });
-        setBooks(data);
-      });
+      .then((data) => setBooks(data));
   }, []);
   return (
     <Page>
@@ -21,9 +16,7 @@ const Home = () => {
       <Section row id='books'>
         {books.map((book) => (
           <BookCard key={book.title} book={book}>
-            <div style={{ width: "80%" }}>
-              <p style={{ fontSize: "0.78rem" }}>{book.title}</p>
-            </div>
+            <p>Borrowed on: {book.rental_date}</p>
           </BookCard>
         ))}
       </Section>
@@ -31,4 +24,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MyBooks;

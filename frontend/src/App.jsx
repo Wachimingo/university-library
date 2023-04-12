@@ -1,6 +1,6 @@
 import { useEffect, Suspense } from "react";
 import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
-import { Home, Details } from "./pages";
+import { Home, Details, Rentals, MyBooks, Books } from "./pages";
 import { Navbar } from "./pages/common";
 
 function App() {
@@ -27,6 +27,9 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
           <Route path='/details/:id' element={<Details />} />
+          <Route path='/rentals' element={<Rentals />} />
+          <Route path='/books' element={<Books />} />
+          <Route path='/my-books' element={<MyBooks />} />
         </Route>
         {/* <Route path='/login' element={<Login />} /> */}
         <Route path='/*' element={<>Not Found</>} />

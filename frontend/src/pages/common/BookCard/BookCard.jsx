@@ -1,19 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "../Card";
-import { Book } from "../Book";
 
 export const BookCard = ({ book, className, children }) => {
   const navigate = useNavigate();
 
-  const openMovieDetails = (id) => {
-    navigate(`/details/${id}`);
+  const openMovieDetails = () => {
+    if (book.book_id || book.id) navigate(`/details/${book.book_id || book.id}`);
   };
 
   return (
-    <Card onClick={() => openMovieDetails(book.id)} className={className}>
+    <Card onClick={openMovieDetails} className={className}>
       {children}
-      <Book book={book} />
+      <img style={{ padding: "1vw 2vh" }} src={`/${book.img}`} alt={book.title} loading='lazy' width={"250px"} height={"353px"} />
     </Card>
   );
 };

@@ -2,7 +2,7 @@ import styles from "./button.module.css";
 
 const SUCCESS = "success";
 
-export const Button = ({ children, success, info, error, warning, disable, ...props }) => {
+export const Button = ({ children, success, info, error, warning, disable, onClick }) => {
   let type = SUCCESS;
   if (success) type = SUCCESS;
   if (info) type = "info";
@@ -11,7 +11,7 @@ export const Button = ({ children, success, info, error, warning, disable, ...pr
   if (disable) type = "disable";
 
   return (
-    <button className={`${styles.btn} ${styles[type]}`} {...props}>
+    <button className={`${styles.btn} ${styles[type]}`} onClick={onClick}>
       {children}
     </button>
   );

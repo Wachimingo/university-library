@@ -1,13 +1,6 @@
 import styles from "./form.module.css";
 
-type FormProps = {
-  id?,
-  children: React.ReactNode,
-  onSubmit?: React.FormEventHandler,
-  props?: any
-};
-
-export const Form = ({ children, ...props }: FormProps) => {
+export const Form = ({ children, ...props }) => {
   return (
     <form className={styles["form"]} {...props}>
       {children}
